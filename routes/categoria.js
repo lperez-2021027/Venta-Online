@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { getCategorias, postCategoria, putCategoria, deleteCategoria } = require('../controllers/categoria');
+const { getCategorias, postCategoria, putCategoria, deleteCategoria, getCategoriasInfo } = require('../controllers/categoria');
 const { existeCategoriaPorId } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campo');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -9,9 +9,12 @@ const { tieneRole, esAdminRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
-router.get('/', [
-    validarJWT
-],getCategorias);
+router.get('/', getCategorias);
+
+router.get('/info', [
+    validarJWT,
+    esAdminRole
+], getCategoriasInfo);
 
 router.post('/agregar', [
     validarJWT,

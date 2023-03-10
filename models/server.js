@@ -17,7 +17,8 @@ class Server {
             auth:       '/api/auth',
             categorias: '/api/categorias',
             productos:  '/api/productos',
-            usuarios:   '/api/usuarios'
+            usuarios:   '/api/usuarios',
+            carritos:    '/api/compras'
         }
 
         this.conectarDB();
@@ -48,6 +49,7 @@ class Server {
        this.app.use(this.paths.categorias, require('../routes/categoria'));
        this.app.use(this.paths.productos, require('../routes/producto'));
        this.app.use(this.paths.usuarios, require('../routes/usuario'));
+       this.app.use(this.paths.carritos, require('../routes/carrito'));
     }
 
     listen(){

@@ -24,6 +24,10 @@ const ProductoSchema = Schema ({
         type: Number,
         required: [true, 'El precio del producto es obligatorio']
     },
+    ventas: {
+        type: Number,
+        default: 0
+    },
     estado: {
         type: Boolean,
         default: true

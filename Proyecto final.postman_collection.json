@@ -1,18 +1,47 @@
 {
 	"info": {
-		"_postman_id": "653a47ec-ad28-4d50-9097-cc631f52e4a7",
-		"name": "Proyecto final",
+		"_postman_id": "504af1dc-7db4-4395-8ffa-cfa036b7c6ea",
+		"name": "Proyecto final Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "POST Auth",
+			"name": "POST Auth Admin",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"correo\": \"jvne@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Auth User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"correo\": \"carlos@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -61,7 +90,7 @@
 			"response": []
 		},
 		{
-			"name": "GET Categorias",
+			"name": "GET Categorias Para Admin",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -69,6 +98,40 @@
 						"key": "x-token",
 						"value": "",
 						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/categorias/info",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"categorias",
+						"info"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Categorias Para Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "",
+						"type": "default",
+						"disabled": true
 					}
 				],
 				"url": {
@@ -114,7 +177,27 @@
 			"response": []
 		},
 		{
-			"name": "GET Usuarios",
+			"name": "GET Productos Ordenados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/productos/ordenado",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"productos",
+						"ordenado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Productos Para Admin",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -125,7 +208,59 @@
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/api/usuarios/",
+					"raw": "localhost:8080/api/productos/info",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"productos",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Productos Agotados",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/productos/agotado",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"productos",
+						"agotado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET UsuariosByID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/usuarios/640a3697a8be046b7b3bbc14",
 					"host": [
 						"localhost"
 					],
@@ -133,7 +268,59 @@
 					"path": [
 						"api",
 						"usuarios",
+						"640a3697a8be046b7b3bbc14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Carrito",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/compras/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"compras",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Facturas",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/compras/factura",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"compras",
+						"factura"
 					]
 				}
 			},
@@ -146,7 +333,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Jvne\",\r\n    \"correo\": \"jvne@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"rol\": \"USER_ROLE\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"Carlos\",\r\n    \"correo\": \"carlos@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -154,7 +341,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/usuarios/agregar",
+					"raw": "localhost:8080/api/usuarios/registrar",
 					"host": [
 						"localhost"
 					],
@@ -162,7 +349,36 @@
 					"path": [
 						"api",
 						"usuarios",
-						"agregar"
+						"registrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Usuario Admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Jvne\",\r\n    \"correo\": \"jvne@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"rol\": \"ADMIN_ROLE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/usuarios/registrar",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"usuarios",
+						"registrar"
 					]
 				}
 			},
@@ -181,7 +397,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Jvnko\",\r\n    \"correo\": \"jvnko@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"rol\": \"ADMIN_ROLE\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"Jvnko\",\r\n    \"password\": \"123456\",\r\n    \"rol\": \"ADMIN_ROLE\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -253,7 +469,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Vestimenta\",\r\n    \"descripcion\": \"Vestimenta variada\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"default\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -282,13 +498,13 @@
 				"header": [
 					{
 						"key": "x-token",
-						"value": "",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDBhMzZmM2E4YmUwNDZiN2IzYmJjMTkiLCJpYXQiOjE2Nzg0MDU2NTgsImV4cCI6MTY3ODQwOTI1OH0.HiVwHg5gYzqTb4hui3YsaJOdM4LcfBcQ6hmP9s9ZHoM",
 						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Juguetes\",\r\n    \"descripcion\": \"Juguetes\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"default\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -360,7 +576,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"nombre\": \"Pizza con piña\",\r\n        \"categoria\": \"_id\",\r\n        \"cantidad\": 18,\r\n        \"precio\": 20\r\n    }",
+					"raw": "{\r\n        \"nombre\": \"Evangelion T-shirt\",\r\n        \"categoria\": \"_id\",\r\n        \"cantidad\": 10,\r\n        \"precio\": 80\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -389,13 +605,13 @@
 				"header": [
 					{
 						"key": "x-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2Y5NjkzNmJlODdlNTJkZWU3YmUxMDYiLCJpYXQiOjE2NzcyOTQ2MzksImV4cCI6MTY3NzI5ODIzOX0.hRc0GWro0CJSJiQwkrvvpQ8vaQNNHuNEBId4C3rTbyo",
+						"value": "",
 						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"nombre\": \"Albondiga\",\r\n        \"categoria\": \"_id\",\r\n        \"cantidad\": 18,\r\n        \"precio\": 20\r\n    }",
+					"raw": "{\r\n        \"nombre\": \"Asuka Langley T-Shirt\",\r\n        \"categoria\": \"_id\",\r\n        \"cantidad\": 18,\r\n        \"precio\": 20\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -449,6 +665,41 @@
 						"productos",
 						"eliminar",
 						"id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Carrito",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-token",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productos\": [\r\n        {\"producto\": \"_id\", \"cantidad\" : 3}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/compras/agregar",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"compras",
+						"agregar"
 					]
 				}
 			},

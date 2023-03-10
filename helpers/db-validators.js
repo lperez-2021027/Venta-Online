@@ -3,51 +3,56 @@ const Usuario = require('../models/usuario');
 const Categoria = require('../models/categoria');
 const Producto = require('../models/producto')
 
-const esRoleValido = async(rol = '') => {
-    
-    const existeRol = await Role.findOne({rol});
+const esRoleValido = async (rol = '', next) => {
 
-    if (!existeRol) {
-        throw new Error(`El rol ${rol} no esta registrado en la DB`);
+    if (rol) {
+        const existeRol = await Role.findOne({ rol });
+
+        if (!existeRol) {
+            throw new Error(`El rol ${rol} no esta registrado en la DB`);
+        }
+    } else {
+        return rol = "USER_ROLE"
     }
+
 }
 
-const emailExiste = async(correo = '') => {
-    const existeEmail = await Usuario.findOne({correo});
+const emailExiste = async (correo = '') => {
+    const existeEmail = await Usuario.findOne({ correo });
 
     if (existeEmail) {
         throw new Error(`El email ${correo} existe y esta registrado en la DB`);
     }
 }
 
-const existeUsuarioPorId = async(id) => {
+const existeUsuarioPorId = async (id) => {
 
     const existeUsuario = await Usuario.findById(id);
 
-    if(!existeUsuario) {
-        throw new Error (`El id ${id} no existe`);
+    if (!existeUsuario) {
+        throw new Error(`El id ${id} no existe`);
     }
 
 }
 
-const existeCategoriaPorId = async(id) => {
-    
+const existeCategoriaPorId = async (id) => {
+
     const existeCategoria = await Categoria.findById(id);
 
-    if(!existeCategoria) {
-        throw new Error (`La categoria ${id} no existe`);
+    if (!existeCategoria) {
+        throw new Error(`La categoria ${id} no existe`);
     }
 
 }
 
-const existeProductoPorId = async(id) => {
-    
+const existeProductoPorId = async (id) => {
+
     const existeProducto = await Producto.findById(id);
 
-    if(!existeProducto) {
-        throw new Error (`El producto ${id} no existe`);
+    if (!existeProducto) {
+        throw new Error(`El producto ${id} no existe`);
     }
-    
+
 }
 
 module.exports = {

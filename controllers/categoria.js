@@ -1,11 +1,13 @@
 // Importaciones
 // Dependencias
 const { response, request } = require('express');
+const mongoose = require('mongoose');
 
 // Clases
 const Categoria = require('../models/categoria');
+const Producto = require('../models/producto');
 
-const getCategorias = async (req = request, res = response) => {
+const  getCategoriasInfo = async (req = request, res = response) => {
 
     const query = { estado: true };
 
@@ -13,6 +15,21 @@ const getCategorias = async (req = request, res = response) => {
         Categoria.countDocuments(query),
         Categoria.find(query)
             .populate('usuario', 'nombre')
+    ]);
+
+    res.json({
+        msg: 'get Api - Get Categoria',
+        listaCategorias        
+    });
+}
+
+const getCategorias = async (req = request, res = response) => {
+
+    const query = { estado: true, nombre: { $ne: 'DEFAULT' }  };
+
+    const listaCategorias = await Promise.all([
+        Categoria.countDocuments(query),
+        Categoria.find(query, { nombre: 1, descripcion: 1, _id: 0})
     ]);
 
     res.json({
@@ -70,9 +87,17 @@ const deleteCategoria = async (req = request, res = response) => {
 
     const { id } = req.params;
 
+    const productoCategoria = await Producto.find({ categoria : {_id: id}})
+    const categoriaDefault = await Categoria.findOne({nombre: "DEFAULT"})
+
+    const idProduct = productoCategoria.id;
+    const { _id, nombre} = categoriaDefault;
+
     // Eliminando de manera total en la DB
     const categoriaEliminada = await Categoria.findByIdAndDelete(id);
 
+    const productoEditado = await Producto.updateMany(idProduct, { categoria : { _id : _id , nombre: nombre}}, {new : true});
+    
     /*
     Eliminando de manera lógica de la DB
     const categoriaEliminada = await Categoria.findByIdAndUpdate({estado: false});
@@ -80,12 +105,15 @@ const deleteCategoria = async (req = request, res = response) => {
 
     res.json({
         msg: 'Delete Api - Delete Categoria',
-        categoriaEliminada
+        productoEditado,
+        categoriaEliminada,
+        idProduct
     })
 }
 
 module.exports = {
     getCategorias,
+    getCategoriasInfo,
     postCategoria,
     putCategoria,
     deleteCategoria
