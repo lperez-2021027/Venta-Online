@@ -2,6 +2,7 @@ const { response, request, query } = require('express');
 const Carrito = require('../models/carrito');
 const Factura = require('../models/factura');
 const Producto = require('../models/producto');
+const Usuario = require('../models/usuario')
 
 const getCarrito = async (req = request, res = response) => {
 
@@ -9,16 +10,16 @@ const getCarrito = async (req = request, res = response) => {
 
     const query = { usuario: usId };
 
-    const listaCarrito = await Promise.all([
-        Carrito.countDocuments(),
-        Carrito.find({}, { total: 1, productos: { producto: 1 } })
-            .populate('productos.producto', 'nombre categoria')
-
+    const compras = await Promise.all([
+        Carrito.countDocuments(query),
+        Carrito.find(query, { total: 1 })
+            //.populate('productos.producto', 'nombre categoria')
+            .select('-productos')
     ]);
 
     res.json({
         msg: 'get Api - Controlador Carrito',
-        listaCarrito
+        compras
     })
 
 }
@@ -26,6 +27,7 @@ const getCarrito = async (req = request, res = response) => {
 const postCarrito = async (req = request, res = response) => {
 
     const { usuario, total, ...resto } = req.body;
+    const usId = req.usuario._id;
 
     const idProduct = resto.productos.map(producto => producto.producto);
     const cantidadProduct = resto.productos.map(producto => producto.cantidad);
@@ -75,10 +77,9 @@ const postCarrito = async (req = request, res = response) => {
 
     const data = {
         ...resto,
-        total: sumaTotal
+        total: sumaTotal,
+        usuario: usId
     }
-
-    //const listaProduct = Producto.find(query)
 
     const carrito = await Carrito(data);
     await carrito.save();
@@ -88,7 +89,7 @@ const postCarrito = async (req = request, res = response) => {
     //const carritoData = await Carrito.findById(idCarrito);
 
     const dataFactura = {
-        usuario: resto.usuario,
+        usuario: usId,
         fecha: date,
         detalles: idCarrito
     }
@@ -98,14 +99,6 @@ const postCarrito = async (req = request, res = response) => {
 
     res.json({
         msg: 'get Api - Controlador Carrito',
-        // idProduct,
-        // stockProducto,
-        // newStockProducto,
-        // hayStock,
-        // precioProductos,
-        // cantidadProduct,
-        // totalPorProducto,
-        // sumaTotal,
         carrito
     })
 
@@ -117,7 +110,6 @@ const getFactura = async (req = request, res = response) => {
     const listaFacturas = await Promise.all([
         (await Carrito.find({}, { productos: { _id: 0 }, __v: 0 })
             .populate('productos.producto', 'nombre categoria'))
-
     ]);
 
     res.json({
@@ -127,8 +119,44 @@ const getFactura = async (req = request, res = response) => {
 
 }
 
+const getFacturaById = async (req = request, res = response) => {
+
+    const { id } = req.params;
+    const idJwt = req.usuario._id;
+    let query;
+
+    //const carritoUserId = await Carrito.findOne({ _id: id }, { usuario: 1 , _id: 0});
+    const rolUserJwt = await Usuario.findOne({ _id: idJwt }, { rol: 1, _id: 0 });
+
+    // if (rolUserJwt.rol != "ADMIN_ROLE" && idJwt != carritoUserId) {
+    //     return res.status(401).json({
+    //         msg: 'No es posible visualizar facturas de otros usuarios'
+    //     })
+    // }
+
+    if (rolUserJwt.rol != "ADMIN_ROLE") {
+        query = { usuario: idJwt };
+    } else {
+        query = { };
+    }
+
+    
+
+    const listaFactura = await Promise.all([
+        (await Carrito.find(query)
+            .populate('productos.producto', 'nombre categoria'))
+    ]);
+
+    res.json({
+        msg: 'get Api - Controlador Factura',
+        listaFactura
+    })
+
+}
+
 module.exports = {
     getCarrito,
     getFactura,
+    getFacturaById,
     postCarrito
 }

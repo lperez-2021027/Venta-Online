@@ -4,7 +4,6 @@ const FacturaSchema = Schema({
     usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
-        //,required: true
     },
     fecha: {
         type: Date,
